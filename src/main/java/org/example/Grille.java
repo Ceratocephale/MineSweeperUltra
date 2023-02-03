@@ -12,15 +12,15 @@ public class Grille {
     public void init(int WIDTH, int HEIGHT) {
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
-                grid.put(x*WIDTH+y, new Cell(tab[x][y]));
+                grid.put(x * WIDTH + y, new Cell(tab[x][y]));
             }
         }
     }
 
-    public boolean checkWin(){
+    public boolean checkWin() {
         boolean result = true;
         for (Cell c : grid.values()) {
-            if((c.getContains() != 9 && c.getState() == CellState.HIDDEN) || (c.getContains() == 9 && (c.getState() == CellState.VISIBLE))){
+            if ((c.getContains() != 9 && c.getState() == CellState.HIDDEN) || (c.getContains() == 9 && (c.getState() == CellState.VISIBLE))) {
                 result = false;
                 break;
             }
@@ -29,21 +29,20 @@ public class Grille {
         return result;
     }
 
-    public boolean click(int key){
+    public boolean click(int key) {
         Cell cell = grid.get(key);
-//        if(cell.getContains() == 0) {
-//            for (int i = 0; i < ; i++) {
-//
-//            }
-//        }
-        cell.setState(CellState.VISIBLE);
+        if (cell.getContains() == 0)
+            revealArea(cell);
         return cell.getContains() == 9;
 
 
     }
 
-    public void setVisible(int key){
+    public void revealArea(Cell cell) {
 
+
+
+        cell.setState(CellState.VISIBLE);
     }
 
     public Map<Integer, Cell> getGrille() {
