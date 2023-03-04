@@ -1,17 +1,29 @@
 package org.example;
 
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Map;
 import java.util.TreeMap;
 
+
+
+@Getter
+@Setter
 public class Grille {
 
     private int[][] tab = Test.firstGrid;
     private Map<Integer, Cell> grid = new TreeMap<>();
 
+    private int WIDTH;
+    private int HEIGHT;
+
     public void init(int WIDTH, int HEIGHT) {
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
+        this.WIDTH = WIDTH;
+        this.HEIGHT = HEIGHT;
+        for (int x = 1; x < WIDTH + 1; x++) {
+            for (int y = 1; y < HEIGHT + 1; y++) {
                 grid.put(x * WIDTH + y, new Cell(tab[x][y]));
             }
         }
@@ -30,19 +42,30 @@ public class Grille {
     }
 
     public boolean click(int key) {
-        Cell cell = grid.get(key);
-        if (cell.getContains() == 0)
-            revealArea(cell);
-        return cell.getContains() == 9;
-
-
+        if (grid.get(key).getContains() == 0)
+            flood(key);
+        return grid.get(key).getContains() == 9;
     }
+    
+    
 
-    public void revealArea(Cell cell) {
+    public void flood(int key){
+        int x = key % WIDTH;
+        int y = key / HEIGHT;
+        if( y != 0 && x != 0 && y != HEIGHT + 1 && x != WIDTH + 1) {
+        int tab[] = {(HEIGHT * (y-1) + x-1), (HEIGHT * (y-1) + x), (HEIGHT * (y-1) + x+1), (HEIGHT * (y) + x-1), (HEIGHT * (y-1) + x+1), (HEIGHT * (y+1) + x-1), (HEIGHT * (y+1) + x), (HEIGHT * (y+1) + x+1)};
+        for(int i : tab) {
+                if(grid.get(i).getContains() == 0 && grid.get(i).getState() == CellState.HIDDEN) {
+                    grid.get(i).setState(CellState.VISIBLE);
+                    flood(i);
+                }
+                if(grid.get(i).getContains() != 9 && grid.get(i).getState() == CellState.HIDDEN) {
+                    grid.get(i).setState(CellState.VISIBLE);
+                }
+            }
+        }
 
 
-
-        cell.setState(CellState.VISIBLE);
     }
 
     public Map<Integer, Cell> getGrille() {
