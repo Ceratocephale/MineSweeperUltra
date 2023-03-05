@@ -13,11 +13,8 @@ public class MineSweeper extends JFrame {
         this.WIDTH = difficulty.getX();
         this.HEIGHT = difficulty.getY();
         grid = new Grille();
-        buttons = new JButton[WIDTH][HEIGHT];
-    }
-
-    public void gridInit() {
         grid.init(WIDTH, HEIGHT);
+        buttons = new JButton[WIDTH][HEIGHT];
     }
 
     public void display() {
@@ -39,8 +36,8 @@ public class MineSweeper extends JFrame {
 //        frame.setVisible(true);
 //
 //        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame frame = new JFrame("Minesweeper");
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(WIDTH, HEIGHT));
@@ -50,25 +47,70 @@ public class MineSweeper extends JFrame {
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
                 JButton button = new JButton();
-                button.setPreferredSize(new Dimension(40, 30)); // set button size
+                button.setPreferredSize(new Dimension(100, 100)); // set button size
                 panel.add(button);
                 buttons[i][j] = button;
             }
         }
 
         // add numbers to the buttons
-        int count = 1;
-        for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < HEIGHT; j++) {
-                buttons[i][j].setText(String.valueOf(count++));
+        for(int i = 0; i< WIDTH; i++){
+            for(int j = 0; j < HEIGHT; j++){
+                buttons[i][j].setIcon(new ImageIcon("Minesweeper_generic.svg.jpg"));
+                int key = (i+1) * WIDTH + (j+1);
+                int contains = grid.getGrid().get(key).getContains();
+                switch (contains) {
+                    case 0 :
+
+
+                        break;
+                    case 1 :
+                        buttons[i][j].setIcon(new ImageIcon("1024px-Minesweeper_1.png"));
+                        break;
+                    case 2 :
+
+                        break;
+                    case 3 :
+
+                        break;
+                    case 4 :
+
+                        break;
+                    case 5 :
+
+                        break;
+                    case 9 :
+                        buttons[i][j].setIcon(new ImageIcon("png-transparent-red-circle-minesweeper-minesweeper-deluxe-minesweeper-adfree-video-games-land-mine-naval-mine-android-thumbnail.png"));
+                        break;
+
+                }
+               // buttons[i][j].setText(String.valueOf(grid.getGrid().get((i+1) * WIDTH + (j+1)).getContains()));
+
             }
         }
 
         // add the panel to the window
-        add(panel, BorderLayout.CENTER);
+        frame.add(panel, BorderLayout.CENTER);
 
-        pack();
-        setVisible(true);
+        frame.pack();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setSize(3000, 3000);
+    }
+
+    public class ImageButton extends JButton {
+
+        protected ImageButton(){
+        }
+
+        @Override
+        public void paint(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g;
+            Image img = Toolkit.getDefaultToolkit().getImage("1024px-Minesweeper_1.png");
+
+            g2.drawImage(img, 45, 35, this);
+            g2.dispose();
+        }
     }
 
 }
