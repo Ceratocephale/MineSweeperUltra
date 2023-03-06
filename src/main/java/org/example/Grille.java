@@ -55,13 +55,14 @@ public class Grille {
         if( y != 0 && x != 0 && y != HEIGHT + 1 && x != WIDTH + 1) {
         int tab[] = {(HEIGHT * (y-1) + x-1), (HEIGHT * (y-1) + x), (HEIGHT * (y-1) + x+1), (HEIGHT * (y) + x-1), (HEIGHT * (y-1) + x+1), (HEIGHT * (y+1) + x-1), (HEIGHT * (y+1) + x), (HEIGHT * (y+1) + x+1)};
         for(int i : tab) {
-                if(grid.get(i).getContains() == 0 && grid.get(i).getState() == CellState.HIDDEN) {
+//                if( && grid.get(i).getState() == CellState.HIDDEN) {
+//                    grid.get(i).setState(CellState.VISIBLE);
+//                    flood(i);
+//                }
+                if(grid.get(i).getContains() != 0 && grid.get(i).getState() == CellState.HIDDEN)
                     grid.get(i).setState(CellState.VISIBLE);
-                    flood(i);
-                }
-                if(grid.get(i).getContains() != 9 && grid.get(i).getState() == CellState.HIDDEN) {
-                    grid.get(i).setState(CellState.VISIBLE);
-                }
+                else flood(i);
+
             }
         }
 
