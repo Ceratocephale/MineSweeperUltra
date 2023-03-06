@@ -47,7 +47,7 @@ public class MineSweeper extends JFrame {
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
                 JButton button = new JButton();
-                button.setPreferredSize(new Dimension(100, 100)); // set button size
+                button.setPreferredSize(new Dimension(30, 30)); // set button size
                 panel.add(button);
                 buttons[i][j] = button;
             }
@@ -65,10 +65,13 @@ public class MineSweeper extends JFrame {
 
                         break;
                     case 1 :
-                        buttons[i][j].setIcon(new ImageIcon("1024px-Minesweeper_1.png"));
+
+                        buttons[i][j].setIcon(new ImageIcon(new ImageIcon("1024px-Minesweeper_1.png")
+                                .getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)));
                         break;
                     case 2 :
-
+                        buttons[i][j].setIcon(new ImageIcon(new ImageIcon("1200px-Minesweeper_2.png")
+                                .getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)));
                         break;
                     case 3 :
 
@@ -80,7 +83,8 @@ public class MineSweeper extends JFrame {
 
                         break;
                     case 9 :
-                        buttons[i][j].setIcon(new ImageIcon("png-transparent-red-circle-minesweeper-minesweeper-deluxe-minesweeper-adfree-video-games-land-mine-naval-mine-android-thumbnail.png"));
+                        buttons[i][j].setIcon(new ImageIcon(new ImageIcon("png-transparent-red-circle-minesweeper-minesweeper-deluxe-minesweeper-adfree-video-games-land-mine-naval-mine-android-thumbnail.png")
+                                .getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)));
                         break;
 
                 }
@@ -95,22 +99,9 @@ public class MineSweeper extends JFrame {
         frame.pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        frame.setSize(3000, 3000);
+        frame.setSize(500, 500);
     }
 
-    public class ImageButton extends JButton {
 
-        protected ImageButton(){
-        }
-
-        @Override
-        public void paint(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g;
-            Image img = Toolkit.getDefaultToolkit().getImage("1024px-Minesweeper_1.png");
-
-            g2.drawImage(img, 45, 35, this);
-            g2.dispose();
-        }
-    }
 
 }
