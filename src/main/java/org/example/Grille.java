@@ -50,10 +50,10 @@ public class Grille {
     
 
     public void flood(int key){
-        int x = key % WIDTH;
-        int y = key / HEIGHT;
+        int x = key / WIDTH;
+        int y = key % HEIGHT;
         if( y != 0 && x != 0 && y != HEIGHT + 1 && x != WIDTH + 1) {
-        int tab[] = {(HEIGHT * (y-1) + x-1), (HEIGHT * (y-1) + x), (HEIGHT * (y-1) + x+1), (HEIGHT * (y) + x-1), (HEIGHT * (y-1) + x+1), (HEIGHT * (y+1) + x-1), (HEIGHT * (y+1) + x), (HEIGHT * (y+1) + x+1)};
+        int tab[] = {(HEIGHT * (y-1) + (x-1)), (HEIGHT * (y-1) + x), (HEIGHT * (y-1) + (x+1)), (HEIGHT * (y) + (x-1)), (HEIGHT * (y-1) + (x+1)), (HEIGHT * (y+1) + (x-1)), (HEIGHT * (y+1) + x), (HEIGHT * (y+1) + (x+1))};
         for(int i : tab) {
 //                if( && grid.get(i).getState() == CellState.HIDDEN) {
 //                    grid.get(i).setState(CellState.VISIBLE);
