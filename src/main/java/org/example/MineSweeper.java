@@ -48,8 +48,10 @@ public class MineSweeper extends JFrame {
                 button.setPreferredSize(new Dimension(30, 30));
                 button.addActionListener(e -> {
                     int k = key;
-                    click(k);
+                    click(k, buttons);
                     switchButtons(key, contains);
+
+
                 });
                 button.setIcon(new ImageIcon(new ImageIcon("800px-Minesweeper_unopened_square.svg.png")
                         .getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)));
@@ -76,12 +78,13 @@ public class MineSweeper extends JFrame {
         frame.setSize(500, 500);
     }
 
-    public void click(int key) {
+    public void click(int key, JButton[][] buttons) {
         int i = key / (HEIGHT + 2) - 1;
         int j = key % (HEIGHT + 2) - 1;
         grid.getGrille().get(key).setState(CellState.VISIBLE);
+        buttons[i][j].setEnabled(false);
         if (grid.getGrille().get(key).getContains() == 0) {
-            flood(key);
+            flood(key, buttons);
         }
 
 //        int x = key / (HEIGHT+2);
@@ -96,7 +99,7 @@ public class MineSweeper extends JFrame {
         //  return grid.getGrille().get(key).getContains() == 9;
     }
 
-    public void flood(int key) {
+    public void flood(int key, JButton[][] buttons) {
         int x = key / (HEIGHT + 2);
         int y = key % (HEIGHT + 2);
 //        System.out.printf("KEY IS %d \n", key);
@@ -113,18 +116,12 @@ public class MineSweeper extends JFrame {
 //                System.out.println(i);
 //                System.out.printf("Cell number of %d is %d \n",i,grid.getGrille().get(i).getContains());
 //                System.out.printf("Cell state of %d is %s \n",i,grid.getGrille().get(i).getState());
-            if (grid.getGrille().get(i).getContains() != 0 && grid.getGrille().get(i).getState().equals(CellState.HIDDEN)){
+            if (grid.getGrille().get(i).getContains() != 0 && grid.getGrille().get(i).getState().equals(CellState.HIDDEN))
                 grid.getGrille().get(i).setState(CellState.VISIBLE);
-                buttons[x-1][y-1].setEnabled(false);
-                switchButtons(key, grid.getGrille().get(i).getContains());
-            }
-
-
             else if (grid.getGrille().get(i).getContains() == 0 && grid.getGrille().get(i).getState().equals(CellState.HIDDEN)) {
                 grid.getGrille().get(i).setState(CellState.VISIBLE);
                 buttons[x-1][y-1].setEnabled(false);
-                switchButtons(key, grid.getGrille().get(i).getContains());
-                flood(i);
+                flood(i, buttons);
             }
 //                System.out.printf("Cell state of %d is %s \n",i,grid.getGrille().get(i).getState());
 
