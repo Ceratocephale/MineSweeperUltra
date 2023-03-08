@@ -22,9 +22,13 @@ public class Grille {
     public void init(int WIDTH, int HEIGHT) {
         this.WIDTH = WIDTH;
         this.HEIGHT = HEIGHT;
-        for (int x = 1; x < WIDTH + 1; x++) {
-            for (int y = 1; y < HEIGHT + 1; y++) {
-                grid.put(x * WIDTH + y, new Cell(tab[x][y]));
+        for (int x = 0; x < WIDTH + 2; x++) {
+            for (int y = 0; y < HEIGHT + 2; y++) {
+                int key = x * (WIDTH + 2) + y;
+                grid.put(key, new Cell(tab[x][y]));
+                if((x == 0 || x == WIDTH + 2) || (y == 0 || y == WIDTH + 2)) {
+                    grid.get(key).setState(CellState.VISIBLE);
+                }
             }
         }
     }
@@ -41,33 +45,11 @@ public class Grille {
         return result;
     }
 
-    public boolean click(int key) {
-        if (grid.get(key).getContains() == 0)
-            flood(key);
-        return grid.get(key).getContains() == 9;
-    }
+
     
     
 
-    public void flood(int key){
-        int x = key / WIDTH;
-        int y = key % HEIGHT;
-        if( y != 0 && x != 0 && y != HEIGHT + 1 && x != WIDTH + 1) {
-        int tab[] = {(HEIGHT * (y-1) + (x-1)), (HEIGHT * (y-1) + x), (HEIGHT * (y-1) + (x+1)), (HEIGHT * (y) + (x-1)), (HEIGHT * (y-1) + (x+1)), (HEIGHT * (y+1) + (x-1)), (HEIGHT * (y+1) + x), (HEIGHT * (y+1) + (x+1))};
-        for(int i : tab) {
-//                if( && grid.get(i).getState() == CellState.HIDDEN) {
-//                    grid.get(i).setState(CellState.VISIBLE);
-//                    flood(i);
-//                }
-                if(grid.get(i).getContains() != 0 && grid.get(i).getState() == CellState.HIDDEN)
-                    grid.get(i).setState(CellState.VISIBLE);
-                else flood(i);
 
-            }
-        }
-
-
-    }
 
     public Map<Integer, Cell> getGrille() {
         return Map.copyOf(grid);

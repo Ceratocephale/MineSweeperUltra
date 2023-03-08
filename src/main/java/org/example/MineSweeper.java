@@ -29,14 +29,14 @@ public class MineSweeper extends JFrame {
         // create the buttons and add them to the panel
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
-                final int key = (i+1) * WIDTH + (j+1);
+                final int key = (i+1) * (WIDTH+1) + (j+1);
                 JButton button = new JButton();
                 button.setPreferredSize(new Dimension(30, 30)); // set button size
                 button.setIcon(new ImageIcon(new ImageIcon("800px-Minesweeper_unopened_square.svg.png")
                                 .getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)));
                 button.addActionListener(e -> {
                     int k = key;
-                    grid.click(k);
+                    click(k);
                     button.setEnabled(false);
                 });
                 panel.add(button);
@@ -93,6 +93,43 @@ public class MineSweeper extends JFrame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setSize(500, 500);
+    }
+
+    public boolean click(int key) {
+        if (grid.getGrille().get(key).getContains() == 0)
+        {
+            grid.getGrille().get(key).setState(CellState.VISIBLE);
+            flood(key);
+        }
+        return grid.getGrille().get(key).getContains() == 9;
+    }
+
+    public void flood(int key){
+        int x = key / (HEIGHT);
+        int y = key % (HEIGHT);
+        System.out.printf("KEY IS %d \n", key);
+        System.out.printf("X IS %d \n",x);
+        System.out.printf("Y IS %d \n",y);
+ //       if( y == 1 && x = 1 && y <= HEIGHT && x <= WIDTH)
+        {
+            int tab[] = {((HEIGHT) * (x-1) + (y-1)), ((HEIGHT) * (x-1) + y), ((HEIGHT) * (x-1) + (y+1)), ((HEIGHT) * (x) + (y-1)), ((HEIGHT) * (x) + (y+1)), ((HEIGHT) * (x+1) + (y-1)), ((HEIGHT) * (x+1) + y), ((HEIGHT) * (x+1) + (y+1))};
+            for(int i : tab) {
+//                if( && grid.get(i).getState() == CellState.HIDDEN) {
+//                    grid.get(i).setState(CellState.VISIBLE);
+//                    flood(i);
+//                }
+                System.out.println(i);
+                System.out.printf("Cell state of %d is %s \n",i,grid.getGrille().get(i).getState());
+                if(grid.getGrille().get(i).getContains() != 0 && grid.getGrille().get(i).getState().equals(CellState.HIDDEN))
+                    grid.getGrille().get(i).setState(CellState.VISIBLE);
+                else if (grid.getGrille().get(i).getContains() == 0 && grid.getGrille().get(i).getState().equals(CellState.HIDDEN)){
+                    grid.getGrille().get(i).setState(CellState.VISIBLE);
+                    flood(i);
+                }
+                System.out.printf("Cell state of %d is %s \n",i,grid.getGrille().get(i).getState());
+
+            }
+        }
     }
 
 
