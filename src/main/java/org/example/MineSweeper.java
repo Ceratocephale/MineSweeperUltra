@@ -123,6 +123,7 @@ public class MineSweeper extends JFrame {
             else if (grid.getGrille().get(i).getContains() == 0 && grid.getGrille().get(i).getState().equals(CellState.HIDDEN)) {
                 grid.getGrille().get(i).setState(CellState.VISIBLE);
                 buttons[x-1][y-1].setEnabled(false);
+                switchButtons(key, grid.getGrille().get(i).getContains());
                 flood(i);
             }
 //                System.out.printf("Cell state of %d is %s \n",i,grid.getGrille().get(i).getState());
