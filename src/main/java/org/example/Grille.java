@@ -26,7 +26,7 @@ public class Grille {
             for (int y = 0; y < HEIGHT + 2; y++) {
                 int key = x * (WIDTH + 2) + y;
                 grid.put(key, new Cell(tab[x][y]));
-                if((x == 0 || x == WIDTH + 2) || (y == 0 || y == WIDTH + 2)) {
+                if((x == 0 || x == WIDTH + 1) || (y == 0 || y == WIDTH + 1)) {
                     grid.get(key).setState(CellState.VISIBLE);
                 }
             }
