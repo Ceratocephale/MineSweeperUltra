@@ -48,7 +48,7 @@ public class MineSweeper extends JFrame {
                 button.setPreferredSize(new Dimension(30, 30));
                 button.addActionListener(e -> {
                     int k = key;
-                    click(k, buttons);
+                    click(k);
                     switchButtons(key, contains);
 
 
@@ -78,14 +78,9 @@ public class MineSweeper extends JFrame {
         frame.setSize(500, 500);
     }
 
-    public void click(int key, JButton[][] buttons) {
+    public void click(int key) {
         int i = key / (HEIGHT + 2) - 1;
         int j = key % (HEIGHT + 2) - 1;
-        grid.getGrille().get(key).setState(CellState.VISIBLE);
-        buttons[i][j].setEnabled(false);
-        if (grid.getGrille().get(key).getContains() == 0) {
-            flood(key, buttons);
-        }
 
 //        int x = key / (HEIGHT+2);
 //        int y = key % (HEIGHT+2);
@@ -96,10 +91,20 @@ public class MineSweeper extends JFrame {
 //        System.out.printf("Cell state of %d is %s \n",key,grid.getGrille().get(key).getState());
 
 
+        grid.getGrille().get(key).setState(CellState.VISIBLE);
+        buttons[i][j].setEnabled(false);
+
+        if (grid.getGrille().get(key).getContains() == 0) {
+            flood(key);
+        }
+
+
+
+
         //  return grid.getGrille().get(key).getContains() == 9;
     }
 
-    public void flood(int key, JButton[][] buttons) {
+    public void flood(int key) {
         int x = key / (HEIGHT + 2);
         int y = key % (HEIGHT + 2);
 //        System.out.printf("KEY IS %d \n", key);
@@ -107,8 +112,8 @@ public class MineSweeper extends JFrame {
 //        System.out.printf("Y IS %d \n", y);
 
 
-        int tab[] = {((HEIGHT + 2) * (x - 1) + (y - 1)), ((HEIGHT + 2) * (x - 1) + y), ((HEIGHT + 2) * (x - 1) + (y + 1)), ((HEIGHT + 2) * (x) + (y - 1)), ((HEIGHT + 2) * (x) + (y + 1)), ((HEIGHT + 2) * (x + 1) + (y - 1)), ((HEIGHT + 2) * (x + 1) + y), ((HEIGHT + 2) * (x + 1) + (y + 1))};
-        for (int i : tab) {
+        int tab[] = {((HEIGHT + 2) * (x - 1) + (y - 1)),((HEIGHT + 2) * (x - 1) + y), ((HEIGHT + 2) * (x - 1) + (y + 1)), ((HEIGHT + 2) * (x) + (y - 1)), ((HEIGHT + 2) * (x) + (y + 1)), ((HEIGHT + 2) * (x + 1) + (y - 1)), ((HEIGHT + 2) * (x + 1) + y), ((HEIGHT + 2) * (x + 1) + (y + 1))};
+        for (int t : tab) {
 //                if( && grid.get(i).getState() == CellState.HIDDEN) {
 //                    grid.get(i).setState(CellState.VISIBLE);
 //                    flood(i);
@@ -116,12 +121,19 @@ public class MineSweeper extends JFrame {
 //                System.out.println(i);
 //                System.out.printf("Cell number of %d is %d \n",i,grid.getGrille().get(i).getContains());
 //                System.out.printf("Cell state of %d is %s \n",i,grid.getGrille().get(i).getState());
-            if (grid.getGrille().get(i).getContains() != 0 && grid.getGrille().get(i).getState().equals(CellState.HIDDEN))
-                grid.getGrille().get(i).setState(CellState.VISIBLE);
-            else if (grid.getGrille().get(i).getContains() == 0 && grid.getGrille().get(i).getState().equals(CellState.HIDDEN)) {
-                grid.getGrille().get(i).setState(CellState.VISIBLE);
-                buttons[x-1][y-1].setEnabled(false);
-                flood(i, buttons);
+
+            int i = t / (HEIGHT + 2);
+            int j = t % (HEIGHT + 2);
+            if (grid.getGrille().get(t).getContains() != 0 && grid.getGrille().get(t).getState().equals(CellState.HIDDEN)) {
+                grid.getGrille().get(t).setState(CellState.VISIBLE);
+              //  System.out.printf("Cell Key is %d and it contains %d \n",i,grid.getGrille().get(i).getContains());
+                buttons[i-1][j-1].setEnabled(false);
+                switchButtons(t, grid.getGrille().get(t).getContains());
+            }
+            else if(grid.getGrille().get(t).getContains() == 0 && grid.getGrille().get(t).getState().equals(CellState.HIDDEN)) {
+                grid.getGrille().get(t).setState(CellState.VISIBLE);
+                buttons[i-1][j-1].setEnabled(false);
+                click(t);
             }
 //                System.out.printf("Cell state of %d is %s \n",i,grid.getGrille().get(i).getState());
 
@@ -134,12 +146,12 @@ public class MineSweeper extends JFrame {
         int j = key % (HEIGHT + 2) - 1;
 
         switch (contains) {
-            case 0:
+//            case 0:
 //                buttons[i][j].setIcon(new ImageIcon(new ImageIcon("1024px-Minesweeper_0.svg.png")
 //                        .getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)));
-                buttons[i][j].setDisabledIcon(new ImageIcon(new ImageIcon("1024px-Minesweeper_0.svg.png")
-                        .getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)));
-                break;
+//                buttons[i][j].setDisabledIcon(new ImageIcon(new ImageIcon("1024px-Minesweeper_0.svg.png")
+//                        .getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)));
+//                break;
             case 1:
 
 //                buttons[i][j].setIcon(new ImageIcon(new ImageIcon("1024px-Minesweeper_1.png")
